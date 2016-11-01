@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+<img src="{{ MEDIA_URL }} {{object.image_url }}" alt="Picture of {{ object.picture }}" />
+</div>
+
+
+{% if request.user.is_authenticated %}
+<div class="container">
+  <form method="post" action="{% url 'comment_form_view' object.id %}"  >   {% csrf_token %}
+  {{ form.as_p }}
+    <input type="submit" name="name" value="Post!" />
+
+
+  </form>
+</div>
+{% endif %}
+
+<div class="container">
+  <h3>Comments</h3>
+  {% for comment in object.comments %}
+  {{ comment.created_user}}: {{ comment.body }}
+
+  {% endfor %}
+</div>
+
+{% endblock %}

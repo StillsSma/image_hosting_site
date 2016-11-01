@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h1>We've got the best Images </h1>
+
+</div>
+
+{% for image in object_list %}
+  <div class="container">
+      <a href="{% url 'image_detail_view' image.id %}">
+      <img src="{{ MEDIA_URL }} {{image.image_url }}" alt="Picture of {{ image.picture }}" />
+    </a>
+  </div>
+  <div class="container">
+    {{ image.description }}
+  </div>
+
+
+
+  <br>
+{% endfor %}
+<ul class="pagination">
+  <li>
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">
+        prev
+      </a>
+    {% else %}
+      <span>prev</span>
+    {% endif %}
+  </li>
+
+  {% for page_number in paginator.page_range %}
+    {% if page_number is page_obj.number %}
+      <li class="active">
+        <span>{{ page_number }}</span>
+      </li>
+    {% else %}
+      <li>
+        <a href="?page={{ page_number }}">
+          {{ page_number }}
+        </a>
+      </li>
+    {% endif %}
+  {% endfor %}
+
+
+  <li>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">
+        next
+      </a>
+    {% else %}
+      <span>next</span>
+    {% endif %}
+  </li>
+</ul>
+
+{% endblock %}
